@@ -1,31 +1,46 @@
 version: '3.8'
 
 services:
-  mysql:    
+  mysql:
     image: mysql:8.0
-    container_name: mysql   
+    container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "Tw@bfYCNh@J2"   
-      MYSQL_DATABASE: game    
+      MYSQL_ROOT_PASSWORD: "Tw@bfYCNh@J2"
+      MYSQL_DATABASE: game
     ports:
       - "0.0.0.0:3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql 
+      - mysql_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       # - ./my.cnf:/etc/mysql/my.cnf
     networks:
       - wz-network
     command: --bind-address=0.0.0.0
 
+  pgsql:
+    image: postgres:15
+    container_name: pgsql
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "Tw@bfYCNh@J2"
+      POSTGRES_DB: game
+    ports:
+      - "0.0.0.0:5432:5432"
+    volumes:
+      - pgsql_data:/var/lib/postgresql/data
+    networks:
+      - wz-network
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     restart: always
     environment:
-      PMA_HOST: mysql   
+      PMA_HOST: mysql
       PMA_USER: root
-      PMA_PASSWORD: "Tw@bfYCNh@J2"  
+      PMA_PASSWORD: "Tw@bfYCNh@J2"
       UPLOAD_LIMIT: 512M
       PHP_INI_UPLOAD_MAX_FILESIZE: 100M
       PHP_INI_POST_MAX_SIZE: 100M
@@ -40,7 +55,9 @@ services:
       - wz-network
 
 volumes:
-  mysql_data:  
+  mysql_data:
+    driver: local
+  pgsql_data:
     driver: local
 
 networks:
