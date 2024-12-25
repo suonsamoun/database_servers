@@ -46,7 +46,7 @@ services:
       PHP_INI_POST_MAX_SIZE: 100M
       PHP_INI_MEMORY_LIMIT: 512M
     ports:
-      - "8080:80"
+      - "8083:80"
     volumes:
       - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
     depends_on:
