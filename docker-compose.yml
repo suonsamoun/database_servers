@@ -6,8 +6,8 @@ services:
     container_name: mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "Tw@bfYCNh@J2"
-      MYSQL_DATABASE: game
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
       - "0.0.0.0:3306:3306"
     volumes:
@@ -23,9 +23,9 @@ services:
     container_name: pgsql
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "Tw@bfYCNh@J2"
-      POSTGRES_DB: game
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "0.0.0.0:5432:5432"
     volumes:
@@ -39,8 +39,8 @@ services:
     restart: always
     environment:
       PMA_HOST: mysql
-      PMA_USER: root
-      PMA_PASSWORD: "Tw@bfYCNh@J2"
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
       UPLOAD_LIMIT: 512M
       PHP_INI_UPLOAD_MAX_FILESIZE: 100M
       PHP_INI_POST_MAX_SIZE: 100M
@@ -51,6 +51,20 @@ services:
       - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
     depends_on:
       - mysql
+    networks:
+      - wz-network
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: pgsql
+    ports:
+      - "8085:8080"
+    depends_on:
+      - mysql
+      - pgsql
     networks:
       - wz-network
 
