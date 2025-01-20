@@ -33,6 +33,24 @@ services:
     networks:
       - wz-network
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    command: redis-server --requirepass "Tw@bfYCNh@J2" --databases 16
+    ports:
+      - "6379:6379"
+    networks:
+      - wz-network
+  # redis-commander:
+  #   image: rediscommander/redis-commander:latest
+  #   container_name: redis-manager
+  #   environment:
+  #     - REDIS_HOSTS=local:redis:6379:2:Tw@bfYCNh@J2
+  #   ports:
+  #     - "8082:8082"
+  #   networks:
+  #     - wz-network
+
 volumes:
   mysql_data:
     driver: local
