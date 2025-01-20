@@ -33,41 +33,6 @@ services:
     networks:
       - wz-network
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: mysql
-      PMA_USER: ${MYSQL_USER}
-      PMA_PASSWORD: ${MYSQL_PASSWORD}
-      UPLOAD_LIMIT: 512M
-      PHP_INI_UPLOAD_MAX_FILESIZE: 100M
-      PHP_INI_POST_MAX_SIZE: 100M
-      PHP_INI_MEMORY_LIMIT: 512M
-    ports:
-      - "8083:80"
-    volumes:
-      - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
-    depends_on:
-      - mysql
-    networks:
-      - wz-network
-
-  adminer:
-    image: adminer
-    container_name: adminer
-    restart: always
-    environment:
-      ADMINER_DEFAULT_SERVER: pgsql
-    ports:
-      - "8085:8080"
-    depends_on:
-      - mysql
-      - pgsql
-    networks:
-      - wz-network
-
 volumes:
   mysql_data:
     driver: local
