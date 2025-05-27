@@ -15,7 +15,7 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       # - ./my.cnf:/etc/mysql/my.cnf
     networks:
-      - wz-network
+      - my-local-network
     command: --bind-address=0.0.0.0
 
   pgsql:
@@ -31,25 +31,26 @@ services:
     volumes:
       - pgsql_data:/var/lib/postgresql/data
     networks:
-      - wz-network
+      - my-local-network
 
   redis:
-    image: redis:latest
     container_name: redis
-    command: redis-server --requirepass "Tw@bfYCNh@J2" --databases 16
-    ports:
-      - "6379:6379"
+    hostname: redis
+    image: redis
     networks:
-      - wz-network
-  # redis-commander:
-  #   image: rediscommander/redis-commander:latest
-  #   container_name: redis-manager
-  #   environment:
-  #     - REDIS_HOSTS=local:redis:6379:2:Tw@bfYCNh@J2
-  #   ports:
-  #     - "8082:8082"
-  #   networks:
-  #     - wz-network
+      - my-local-network
+
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "9001:8081"
+    networks:
+      - my-local-network
 
 volumes:
   mysql_data:
@@ -58,5 +59,5 @@ volumes:
     driver: local
 
 networks:
-  wz-network:
-    external: true
+  my-local-network:
+    driver: bridge
