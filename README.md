@@ -7,15 +7,20 @@ To set up the database servers using Docker Compose, follow these steps:
 
 2. **Clone the Repository**: Clone this repository to your local machine using:
     ```sh
-    git clone https://github.com/yourusername/database_servers.git
+    git clone https://github.com/suonsamoun/database_servers.git
     cd database_servers
     ```
 
 3. **Create a `.env` File**: Create a `.env` file in the root directory of the project and add the necessary environment variables. For example:
     ```env
-    POSTGRES_USER=yourusername
-    POSTGRES_PASSWORD=yourpassword
-    POSTGRES_DB=yourdatabase
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=examplepassword
+    POSTGRES_DB=exampledb
+
+    MYSQL_ROOT_PASSWORD=examplerootpassword
+    MYSQL_DATABASE=exampledb
+    MYSQL_USER=exampleuser
+    MYSQL_PASSWORD=examplepassword
     ```
 
 4. **Run Docker Compose**: Use the following command to start the services defined in the `docker-compose.yml` file:
@@ -35,43 +40,10 @@ To set up the database servers using Docker Compose, follow these steps:
 The following services are included in the `docker-compose.yml` file:
 
 - **PostgreSQL**: A powerful, open-source object-relational database system.
-- **MySQL**: An open-source relational database management system.
-
-## Example `docker-compose.yml`
-
-Here is an example of what your `docker-compose.yml` file might look like:
-
-```yaml
-version: '3.8'
-
-services:
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  mysql:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
-volumes:
-  postgres_data:
-  mysql_data:
-```
+- **Redis**: An in-memory data structure store, used as a database, cache, and message broker.
+- **Redis Commander**: A web-based UI for managing and visualizing data in Redis.
+- **Adminer**: A lightweight database management tool with support for multiple database systems, including PostgreSQL and MySQL.
+- **phpMyAdmin**: A web-based interface for managing MySQL databases.
 
 ## Troubleshooting
 
