@@ -13,7 +13,7 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       # - ./my.cnf:/etc/mysql/my.cnf
     networks:
-      - local-network
+      - database-servers-network
     command: --bind-address=0.0.0.0
 
   pgsql:
@@ -29,7 +29,7 @@ services:
     volumes:
       - pgsql_data:/var/lib/postgresql/data
     networks:
-      - local-network
+      - database-servers-network
 
   redis:
     container_name: redis
@@ -40,7 +40,7 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - local-network
+      - database-servers-network
 
   redis-commander:
     container_name: redis-commander
@@ -52,7 +52,7 @@ services:
     ports:
       - "9001:8081"
     networks:
-      - local-network
+      - database-servers-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -74,7 +74,7 @@ services:
       - mysql
       - pgsql
     networks:
-      - local-network
+      - database-servers-network
 
   adminer:
     image: adminer
@@ -88,7 +88,7 @@ services:
       - mysql
       - pgsql
     networks:
-      - local-network
+      - database-servers-network
 
 volumes:
   mysql_data:
@@ -99,5 +99,6 @@ volumes:
     driver: local
 
 networks:
-  local-network:
+  database-servers-network:
+    name: database-servers-network
     driver: bridge
